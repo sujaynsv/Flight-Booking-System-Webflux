@@ -37,7 +37,6 @@ public class BookingService {
         this.flightRepository = flightRepository;
     }
 
-    // POST /flight/booking/{flightid} -> only PNR in response
     public Mono<PnrResponse> bookTicket(String flightId, BookingRequest request) {
         if (!request.getSeatsCount().equals(request.getPassengers().size())
                 || !request.getSeatsCount().equals(request.getSeatNumbers().size())) {
@@ -49,7 +48,6 @@ public class BookingService {
                 .flatMap(flight -> validateAndCreateBooking(flight, request));
     }
 
-    // internal method now returns PnrResponse as well
     private Mono<PnrResponse> validateAndCreateBooking(Flight flight, BookingRequest request) {
         if (flight.getAvailableSeats() < request.getSeatsCount()) {
             return Mono.error(new SeatUnavailableException("Not enough seats available"));
@@ -101,20 +99,17 @@ public class BookingService {
         return response;
     }
 
-    // GET /flight/ticket/{pnr} -> full ticket details
     public Mono<BookingResponse> getTicketByPnr(String pnr) {
         return bookingRepository.findByPnr(pnr)
                 .switchIfEmpty(Mono.error(new BookingNotFoundException("Booking not found for PNR: " + pnr)))
                 .map(this::mapToResponse);
     }
 
-    // GET /flight/booking/history/{emailId}
     public Flux<BookingResponse> getBookingHistory(String emailId) {
         return bookingRepository.findByEmailIdOrderByBookingTimeDesc(emailId)
                 .map(this::mapToResponse);
     }
 
-    // DELETE /flight/booking/cancel/{pnr}
     public Mono<Void> cancelTicket(String pnr) {
         return bookingRepository.findByPnr(pnr)
                 .switchIfEmpty(Mono.error(new BookingNotFoundException("Booking not found for PNR: " + pnr)))
