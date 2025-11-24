@@ -1,0 +1,26 @@
+### Maven / Java ###
+target/
+logs/
+*.log
+*.class
+
+# Maven wrapper
+.mvn/
+mvnw
+mvnw.cmd
+
+### Eclipse / STS ###
+.classpath
+.project
+.settings/
+.springBeans
+.apt_generated/
+.factorypath
+
+### OS-specific (macOS) ###
+.DS_Store
+
+### Misc ###
+*.tmp
+*.swp
+*.swo
