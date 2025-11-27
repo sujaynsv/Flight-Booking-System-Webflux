@@ -6,7 +6,7 @@ import java.util.Collections;
 import com.flightapp.dto.BookingRequest;
 import com.flightapp.dto.BookingResponse;
 import com.flightapp.dto.PnrResponse;
-import com.flightapp.model.enums.Gender;
+
 import com.flightapp.model.enums.MealType;
 import com.flightapp.service.BookingService;
 import org.junit.jupiter.api.BeforeEach;
